@@ -23,13 +23,11 @@ class AlbumPanel(wx.Panel):
         titleSizer.Add(self.albumText, flag=wx.ALL | wx.EXPAND, border=5)
         inputSizer.Add(titleSizer)
 
-
-        # buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
         searchButton = wx.Button(self, wx.NewId(), label="Search")
         searchButton.SetDefault()
         self.Bind(wx.EVT_BUTTON, self.onSearch, searchButton)
-        inputSizer.Add(searchButton, flag=wx.ALL | wx.EXPAND, border=5)
-        # vertSizer.Add(buttonSizer)
+        titleSizer.Add(searchButton, flag=wx.ALL, border=5)
+
         vertSizer.Add(inputSizer)
         resultSizer = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -87,11 +85,14 @@ class AlbumPanel(wx.Panel):
                 artist = track.artist.name
                 title = track.title
                 lfm.scrobble(artist, title, starttime)
+            #confirmation:
             wx.MessageBox(
                 "Scrobbled: {} - {} ({} tracks).".format(artist.encode('utf-8'),
                  album.encode('utf-8'), noTracks), "Done", wx.OK)
         except lastfm.pylast.WSError as e:
             wx.MessageBox(str(e), 'Uh Oh', wx.OK | wx.ICON_ERROR)
+        except wx._core.PyAssertionError:
+            wx.MessageBox("Nothing selected to scrobble", 'Uh Oh', wx.OK | wx.ICON_ERROR)
 
     def onScrobbleSelected(self, event):
         wx.MessageBox("Not yet implemented", 'Uh Oh', wx.OK | wx.ICON_ERROR)
@@ -105,8 +106,8 @@ class AlbumPanel(wx.Panel):
         tmpFile = 'tmpImage.png'
         tmpFile  = wx.Image(str(tmpFile), wx.BITMAP_TYPE_ANY)
         tmpFile = tmpFile.Scale(250, 250, wx.IMAGE_QUALITY_HIGH)
-        tmpFile = tmpFile.ConvertToBitmap()
-        tmpFilePos = (600, 100)
+        bm = tmpFile.ConvertToBitmap()
+        bmPos = (600, 60)
 
-        self.image = wx.StaticBitmap(self, -1, tmpFile, tmpFilePos, (tmpFile.GetWidth(), tmpFile.GetHeight()))
+        self.image = wx.StaticBitmap(self, -1, bm, bmPos, (tmpFile.GetWidth(), tmpFile.GetHeight()))
         os.remove('tmpImage.png')

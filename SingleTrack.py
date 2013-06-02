@@ -11,6 +11,7 @@ class SingleTrackPanel(wx.Panel):
 
         inputSizer = wx.BoxSizer(wx.VERTICAL)
 
+        #title input
         titleSizer = wx.BoxSizer(wx.HORIZONTAL)
         titleLabel = wx.StaticText(self, -1, 'Track Title: ')
         titleSizer.Add(titleLabel, flag=wx.ALL | wx.EXPAND, border=5)
@@ -19,6 +20,7 @@ class SingleTrackPanel(wx.Panel):
         titleSizer.Add(self.titleText, flag=wx.ALL | wx.EXPAND, border=5)
         inputSizer.Add(titleSizer)
 
+        #artist input
         artistSizer = wx.BoxSizer(wx.HORIZONTAL)
         artistLabel = wx.StaticText(self, -1, 'Artist: ')
         artistSizer.Add(artistLabel, flag=wx.ALL | wx.EXPAND, border=5)
@@ -27,6 +29,7 @@ class SingleTrackPanel(wx.Panel):
         artistSizer.Add(self.artistText, flag=wx.ALL | wx.EXPAND, border=5)
         inputSizer.Add(artistSizer)
 
+        #the buttons
         vertSizer.Add(inputSizer)
         buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
         scrobbleButton = wx.Button(self, wx.NewId(), label="Scrobble")
@@ -37,6 +40,8 @@ class SingleTrackPanel(wx.Panel):
         self.SetSizer(vertSizer)
 
     def OnScrobble(self, event):
+        """Scrobbles using LastFM and sets a confirmation dialog"""
+
         try:
             lfm = LastFM()
             starttime = int(time.time())

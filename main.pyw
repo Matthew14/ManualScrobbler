@@ -8,7 +8,7 @@ from lastfm import LastFM
 
 class ScrobbleFrame(wx.Frame):
     def __init__(self, parent, id):
-        self.name = "Scrobbler"
+        self.name = "Matt's Manual Scrobbler"
         self.size = (900, 600)
         wx.Frame.__init__(self, parent, id, self.name, size = self.size,
             style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
@@ -40,6 +40,10 @@ class ScrobbleFrame(wx.Frame):
         self.SetMenuBar(self.menuBar)
 
     def onSettings(self, event):
+      """
+        Gets the username and password fields from the dialog and saves it as
+        json
+      """
       settings = Settings(self, -1, 'Preferences')
 
       ans = settings.ShowModal()

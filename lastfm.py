@@ -17,7 +17,7 @@ class LastFM(object):
 
     def getInfo(self):
         """opens the settings json file and gets the username and password"""
-
+        #the try/catch deals with if the settings.json doesn't exist
         try:
             with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'r') as f:
                 settings = json.load(f)

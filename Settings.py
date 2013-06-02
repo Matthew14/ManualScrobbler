@@ -57,6 +57,7 @@ class Settings(wx.Dialog):
         self.SetSizer(vertSizer)
 
     def getInfo(self, filename):
+        #the try/catch deals with if the settings.json doesn't exist
         try:
             with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'r') as f:
                 settingsDict = json.load(f)
