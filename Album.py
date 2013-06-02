@@ -2,10 +2,14 @@ import wx
 import lastfm
 from lastfm import LastFM
 import time
+import urllib
+import os
 class AlbumPanel(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
         self.UiInit()
+        self.image = None #for album artwork
+
     def UiInit(self):
         vertSizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -29,9 +33,9 @@ class AlbumPanel(wx.Panel):
         vertSizer.Add(inputSizer)
         resultSizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.albumBox = wx.ListBox(self, 60, (100, 50), (380, 300), [], wx.LB_SINGLE)
+        self.albumBox = wx.ListBox(self, 60, (100, 50), (350, 300), [], wx.LB_SINGLE)
         resultSizer.Add(self.albumBox, flag=wx.ALL | wx.EXPAND, border=5)
-        self.trackBox = wx.ListBox(self, 60, (100, 50), (380, 300), [], wx.LB_SINGLE)
+        self.trackBox = wx.ListBox(self, 60, (100, 50), (190, 300), [], wx.LB_SINGLE)
         resultSizer.Add(self.trackBox, flag=wx.ALL | wx.EXPAND, border=5)
 
         vertSizer.Add(resultSizer)
@@ -48,6 +52,7 @@ class AlbumPanel(wx.Panel):
         self.Bind(wx.EVT_LISTBOX, self.onListBox, self.albumBox)
         self.Bind(wx.EVT_BUTTON, self.onScrobbleAlbum, scrobbleAlbumButton)
         self.Bind(wx.EVT_BUTTON, self.onScrobbleSelected, scrobbleSelectedButton)
+
     def onSearch(self, event):
         self.albumBox.Clear()
         try:
@@ -63,6 +68,7 @@ class AlbumPanel(wx.Panel):
     def onListBox(self, event):
         self.trackBox.Clear()
         selectedAlbum = self.albumBox.GetClientData(event.GetSelection())
+        self.DisplayImage(selectedAlbum.get_cover_image())
         trackNo = 1
         for track in selectedAlbum.get_tracks():
             self.trackBox.Append(str(trackNo) + ': ' + track.title, track)
@@ -89,3 +95,18 @@ class AlbumPanel(wx.Panel):
 
     def onScrobbleSelected(self, event):
         wx.MessageBox("Not yet implemented", 'Uh Oh', wx.OK | wx.ICON_ERROR)
+
+    def DisplayImage(self , imageURI):
+        imgHandle = urllib.urlopen(imageURI)
+        if self.image != None:
+            self.image.Destroy()
+        with open("tmpImage.png", "wb") as img:
+            img.write(imgHandle.read())
+        tmpFile = 'tmpImage.png'
+        tmpFile  = wx.Image(str(tmpFile), wx.BITMAP_TYPE_ANY)
+        tmpFile = tmpFile.Scale(250, 250, wx.IMAGE_QUALITY_HIGH)
+        tmpFile = tmpFile.ConvertToBitmap()
+        tmpFilePos = (600, 100)
+
+        self.image = wx.StaticBitmap(self, -1, tmpFile, tmpFilePos, (tmpFile.GetWidth(), tmpFile.GetHeight()))
+        os.remove('tmpImage.png')

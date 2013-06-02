@@ -9,7 +9,7 @@ from lastfm import LastFM
 class ScrobbleFrame(wx.Frame):
     def __init__(self, parent, id):
         self.name = "Scrobbler"
-        self.size = (800, 600)
+        self.size = (900, 600)
         wx.Frame.__init__(self, parent, id, self.name, size = self.size,
             style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
         self.Setup()

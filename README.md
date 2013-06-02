@@ -6,8 +6,8 @@ Makes use of the <a href="http://code.google.com/p/pylast/">pylast</a> module by
 I plan to package the requirements when it's more polished.
 
 ## Screenshots
-![Single track window](http://www.matthewoneill.com/images/scrobbler/single.png)
 ![Album window](http://www.matthewoneill.com/images/scrobbler/album.png)
+![Single track window](http://www.matthewoneill.com/images/scrobbler/single.png)
 ![Preferences dialog](http://www.matthewoneill.com/images/scrobbler/preferences.png)
 
 ## Depends on:
