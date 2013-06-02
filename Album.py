@@ -86,7 +86,7 @@ class AlbumPanel(wx.Panel):
                 starttime += 10
                 artist = track.artist.name
                 title = track.title
-                # lfm.scrobble(artist, title, starttime)
+                lfm.scrobble(artist, title, starttime)
             wx.MessageBox(
                 "Scrobbled: {} - {} ({} tracks).".format(artist.encode('utf-8'),
                  album.encode('utf-8'), noTracks), "Done", wx.OK)
