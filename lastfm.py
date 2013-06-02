@@ -18,8 +18,18 @@ class LastFM(object):
     def getInfo(self):
         """opens the settings json file and gets the username and password"""
 
-        with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'r') as f:
-            settings = json.load(f)
+        try:
+            with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'r') as f:
+                settings = json.load(f)
+        except IOError as io:
+            with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'w') as f:
+                settingsData = [ {
+                    'username' : "username",
+                    'password' : "password"} ]
+                json.dump(settingsData, f, indent=4)
+            with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'r') as f:
+                settings = json.load(f)
+
         self.enabled = True
         self.username = settings[0]['username']
         self.password = settings[0]['password']
