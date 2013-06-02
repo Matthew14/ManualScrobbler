@@ -33,11 +33,19 @@ class ScrobbleFrame(wx.Frame):
 
     def menuInit(self):
         self.menuBar = wx.MenuBar()
+        fileMenu = wx.Menu()
+        quitItem = fileMenu.Append(wx.ID_EXIT, '&Quit\tCtrl+Q', 'Exit application.')
+        helpMenu = wx.Menu()
+        about = helpMenu.Append(wx.NewId(), '&About', 'About this program.')
         editMenu =  wx.Menu()
         settings = editMenu.Append(wx.NewId(), '&Preferences\tCtrl+P', 'Opens a settings dialog.')
+        self.menuBar.Append(fileMenu, '&File')#The & makes the first char underlined on hitting 'alt' - cool
         self.menuBar.Append(editMenu, '&Edit')
+        self.menuBar.Append(helpMenu, '&Help')
 
+        self.Bind(wx.EVT_MENU, self.onQuit, quitItem)
         self.Bind(wx.EVT_MENU, self.onSettings, settings)
+        self.Bind(wx.EVT_MENU, self.onAbout, about)
 
         self.SetMenuBar(self.menuBar)
 
@@ -59,6 +67,12 @@ class ScrobbleFrame(wx.Frame):
          with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'w') as f:
             json.dump(settingsData, f, indent=4)
       settings.Destroy()
+
+    def onAbout(self, event):
+        wx.MessageBox("I'll get round to it", "Well hey there", wx.OK)
+
+    def onQuit(self, event):
+        self.Close()
 
 if __name__ == "__main__":
     app = wx.PySimpleApp()

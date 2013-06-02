@@ -60,8 +60,9 @@ class AlbumPanel(wx.Panel):
             for result in results:
                 self.albumBox.Append(result.get_artist().name + " - " +
                     result.get_title() + " - " + result.get_release_date().split(',')[0], result)
-            # self.albumBox.SetSelection(0)
         except lastfm.pylast.WSError as e:
+            wx.MessageBox(str(e), 'Uh Oh', wx.OK | wx.ICON_ERROR)
+        except last.pylast.NetworkError as e:
             wx.MessageBox(str(e), 'Uh Oh', wx.OK | wx.ICON_ERROR)
 
     def onListBox(self, event):
