@@ -53,6 +53,7 @@ class AlbumPanel(wx.Panel):
 
     def onSearch(self, event):
         self.albumBox.Clear()
+        self.trackBox.Clear()
         try:
             lfm = LastFM()
             results = lfm.albumSearch(self.albumText.GetValue()).get_next_page()
@@ -101,13 +102,13 @@ class AlbumPanel(wx.Panel):
         imgHandle = urllib.urlopen(imageURI)
         if self.image != None:
             self.image.Destroy()
-        with open("tmpImage.png", "wb") as img:
+        with open(os.path.abspath(os.path.dirname(__file__)) + '\\images\\tmpImage.png', "wb") as img:
             img.write(imgHandle.read())
-        tmpFile = 'tmpImage.png'
+        tmpFile = os.path.abspath(os.path.dirname(__file__)) + '\\images\\tmpImage.png'
         tmpFile  = wx.Image(str(tmpFile), wx.BITMAP_TYPE_ANY)
         tmpFile = tmpFile.Scale(250, 250, wx.IMAGE_QUALITY_HIGH)
         bm = tmpFile.ConvertToBitmap()
         bmPos = (600, 60)
 
         self.image = wx.StaticBitmap(self, -1, bm, bmPos, (tmpFile.GetWidth(), tmpFile.GetHeight()))
-        os.remove('tmpImage.png')
+        os.remove(os.path.abspath(os.path.dirname(__file__)) + '\\images\\tmpImage.png')

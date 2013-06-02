@@ -13,6 +13,8 @@ class ScrobbleFrame(wx.Frame):
         wx.Frame.__init__(self, parent, id, self.name, size = self.size,
             style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
         self.Setup()
+        icon = wx.Icon(os.path.abspath(os.path.dirname(__file__)) + '\images\icon.ico', wx.BITMAP_TYPE_ICO)
+        self.SetIcon(icon)
 
     def Setup(self):
         self.panel = wx.Panel(self)
