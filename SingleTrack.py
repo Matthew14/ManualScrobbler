@@ -46,7 +46,9 @@ class SingleTrackPanel(wx.Panel):
             lfm = LastFM()
             starttime = int(time.time())
             lfm.scrobble(self.artistText.GetValue(), self.titleText.GetValue(), starttime)
-            wx.MessageBox("Scrobbled: {} - {}".format(self.artistText.GetValue(), self.titleText.GetValue()), "Done", wx.OK)
+            wx.MessageBox("Scrobbled: {} - {}".format(
+                self.artistText.GetValue(), self.titleText.GetValue()),
+                    "Done", wx.OK)
             self.artistText.SetValue("")
             self.titleText.SetValue("")
         except lastfm.pylast.WSError as e:

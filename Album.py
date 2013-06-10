@@ -4,6 +4,7 @@ from lastfm import LastFM
 import time
 import urllib
 import os
+import thread
 class AlbumPanel(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent)
@@ -52,6 +53,9 @@ class AlbumPanel(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.onScrobbleSelected, scrobbleSelectedButton)
 
     def onSearch(self, event):
+        #takes a while, so threading it
+        thread.start_new_thread(self.search, ())
+    def search(self):
         self.albumBox.Clear()
         self.trackBox.Clear()
         try:
@@ -60,6 +64,10 @@ class AlbumPanel(wx.Panel):
             for result in results:
                 self.albumBox.Append(result.get_artist().name + " - " +
                     result.get_title() + " - " + result.get_release_date().split(',')[0], result)
+
+            if len(results) == 0:
+                wx.MessageBox("No matches found for {}".format(
+                    self.albumText.GetValue()), 'Uh Oh', wx.OK | wx.ICON_ERROR)
         except lastfm.pylast.WSError as e:
             wx.MessageBox(str(e), 'Uh Oh', wx.OK | wx.ICON_ERROR)
         except last.pylast.NetworkError as e:

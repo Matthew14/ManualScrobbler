@@ -13,7 +13,8 @@ class ScrobbleFrame(wx.Frame):
         wx.Frame.__init__(self, parent, id, self.name, size = self.size,
             style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
         self.Setup()
-        icon = wx.Icon(os.path.abspath(os.path.dirname(__file__)) + '\images\icon.ico', wx.BITMAP_TYPE_ICO)
+        icon = wx.Icon(os.path.abspath(os.path.dirname(__file__)) +
+            '\images\icon.ico', wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
 
     def Setup(self):
@@ -34,12 +35,14 @@ class ScrobbleFrame(wx.Frame):
     def menuInit(self):
         self.menuBar = wx.MenuBar()
         fileMenu = wx.Menu()
-        quitItem = fileMenu.Append(wx.ID_EXIT, '&Quit\tCtrl+Q', 'Exit application.')
+        quitItem = fileMenu.Append(wx.ID_EXIT, '&Quit\tCtrl+Q',
+            'Exit application.')
         helpMenu = wx.Menu()
         about = helpMenu.Append(wx.NewId(), '&About', 'About this program.')
         editMenu =  wx.Menu()
-        settings = editMenu.Append(wx.NewId(), '&Preferences\tCtrl+P', 'Opens a settings dialog.')
-        self.menuBar.Append(fileMenu, '&File')#The & makes the first char underlined on hitting 'alt' - cool
+        settings = editMenu.Append(wx.NewId(), '&Preferences\tCtrl+P',
+            'Opens a settings dialog.')
+        self.menuBar.Append(fileMenu, '&File')
         self.menuBar.Append(editMenu, '&Edit')
         self.menuBar.Append(helpMenu, '&Help')
 
@@ -64,7 +67,8 @@ class ScrobbleFrame(wx.Frame):
             'username' : username,
             'password' : password} ]
 
-         with open( os.path.abspath(os.path.dirname(__file__)) + '\\settings.json', 'w') as f:
+         with open( os.path.abspath(os.path.dirname(__file__)) +
+            '\\settings.json', 'w') as f:
             json.dump(settingsData, f, indent=4)
       settings.Destroy()
 
